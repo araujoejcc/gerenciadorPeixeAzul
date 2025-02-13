@@ -1,9 +1,8 @@
-package br.com.peixeazul.gerenciadorPeixeAzul.entities;
+package br.com.peixeazul.gerenciadorPeixeAzul.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import br.com.peixeazul.gerenciadorPeixeAzul.enums.TipoCompra;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -12,15 +11,27 @@ public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotBlank(message = "A descrição é obrigatória.")
+    @Size(max = 255, message = "A descrição deve ter no máximo 255 caracteres.")
     private String descricao;
+
+    @NotNull(message = "O valor da compra é obrigatório.")
+    @PositiveOrZero(message = "O valor da compra deve ser um valor positivo ou zero.")
     private double valor;
+
+    @NotNull(message = "A data é obrigatória.")
+    @PastOrPresent(message = "A data deve ser no passado ou presente.")
     private LocalDate data;
-    private String tipo; // Ex: "ração", "equipamento"
+
+    @NotNull(message = "O tipo da compra é obrigatório.")
+    @Enumerated(EnumType.STRING) // Armazena o valor do enum como String no banco de dados
+    private TipoCompra tipo;
 
     public Compra() {
     }
 
-    public Compra(Integer id, String descricao, double valor, LocalDate data, String tipo) {
+    public Compra(Integer id, String descricao, double valor, LocalDate data, TipoCompra tipo) {
         this.id = id;
         this.descricao = descricao;
         this.valor = valor;
@@ -60,11 +71,11 @@ public class Compra {
         this.data = data;
     }
 
-    public String getTipo() {
+    public TipoCompra getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoCompra tipo) {
         this.tipo = tipo;
     }
 }

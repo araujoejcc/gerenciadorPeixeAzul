@@ -1,6 +1,9 @@
-package br.com.peixeazul.gerenciadorPeixeAzul.entities;
+package br.com.peixeazul.gerenciadorPeixeAzul.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.time.LocalDate;
 
@@ -9,11 +12,21 @@ public class CicloProducao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotNull(message = "O tanque é obrigatório.")
     @ManyToOne
     private Tanque tanque;
+
+    @NotNull(message = "A data de início é obrigatória.")
     private LocalDate dataInicio;
     private LocalDate dataFim;
+
+    @NotNull(message = "A quantidade pescada é obrigatória.")
+    @PositiveOrZero(message = "A quantidade pescada deve ser um valor positivo ou zero.")
     private double quantidadePescado;
+
+    @NotNull(message = "A ração gasta é obrigatória.")
+    @PositiveOrZero(message = "A ração gasta deve ser um valor positivo ou zero.")
     private double racaoGasta;
 
     public CicloProducao() {

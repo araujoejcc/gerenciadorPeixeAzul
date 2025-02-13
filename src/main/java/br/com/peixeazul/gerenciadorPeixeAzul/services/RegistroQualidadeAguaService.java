@@ -1,6 +1,5 @@
 package br.com.peixeazul.gerenciadorPeixeAzul.services;
-
-import br.com.peixeazul.gerenciadorPeixeAzul.entities.RegistroQualidadeAgua;
+import br.com.peixeazul.gerenciadorPeixeAzul.models.RegistroQualidadeAgua;
 import br.com.peixeazul.gerenciadorPeixeAzul.repositories.RegistroQualidadeAguaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,32 +9,23 @@ import java.util.Optional;
 
 @Service
 public class RegistroQualidadeAguaService {
-    private final RegistroQualidadeAguaRepository registroRepository;
 
     @Autowired
-    public RegistroQualidadeAguaService(RegistroQualidadeAguaRepository registroRepository) {
-        this.registroRepository = registroRepository;
+    private RegistroQualidadeAguaRepository registroQualidadeAguaRepository;
+
+    public List<RegistroQualidadeAgua> listarTodos(){
+        return registroQualidadeAguaRepository.findAll();
     }
 
-    public Optional<List<RegistroQualidadeAgua>> listarPorTanque(Integer tanqueId) {
-        return Optional.of(registroRepository.findByTanqueId(tanqueId));
+    public Optional<RegistroQualidadeAgua> buscarPorId(Integer id) {
+        return registroQualidadeAguaRepository.findById(id);
     }
 
-    public Optional<List<RegistroQualidadeAgua>> listarTodos(){
-        return Optional.of(registroRepository.findAll());
-    };
-
-    public Optional<RegistroQualidadeAgua> buscarPorId(Integer id){
-        return registroRepository.findById(id);
+    public RegistroQualidadeAgua salvar(RegistroQualidadeAgua registroQualidadeAgua) {
+        return registroQualidadeAguaRepository.save(registroQualidadeAgua);
     }
 
-    public RegistroQualidadeAgua incluirRegistro(RegistroQualidadeAgua registro) {
-        return registroRepository.save(registro);
+    public void deletar(Integer id) {
+        registroQualidadeAguaRepository.deleteById(id);
     }
-
-    public void excluirRegistro(Integer id){
-        registroRepository.deleteById(id);
-    }
-
-
 }

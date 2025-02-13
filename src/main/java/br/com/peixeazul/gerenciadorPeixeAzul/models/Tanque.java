@@ -1,19 +1,33 @@
-package br.com.peixeazul.gerenciadorPeixeAzul.entities;
+package br.com.peixeazul.gerenciadorPeixeAzul.models;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-    @Entity
+@Entity
     public class Tanque {
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
+
+        @NotBlank(message = "O nome do tanque é obrigatório.")
+        @Size(max = 255, message = "O nome do tanque deve ter no máximo 255 caracteres.")
         private String nome;
+
+        @NotNull(message = "A capacidade do tanque é obrigatória.")
+        @Positive(message = "A capacidade do tanque deve ser um valor positivo.")
         private double capacidade;
+
+        @NotBlank(message = "A localização do tanque é obrigatória.")
+        @Size(max = 255, message = "A localização do tanque deve ter no máximo 255 caracteres.")
         private String localizacao;
+
+        @NotBlank(message = "A espécie cultivada é obrigatória.")
+        @Size(max = 255, message = "A espécie cultivada deve ter no máximo 255 caracteres.")
         private String especieCultura; // Nova adição
+
 
         public Tanque() {
         }

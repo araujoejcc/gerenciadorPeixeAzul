@@ -1,6 +1,8 @@
 package br.com.peixeazul.gerenciadorPeixeAzul.services;
 
-import br.com.peixeazul.gerenciadorPeixeAzul.entities.Venda;
+import br.com.peixeazul.gerenciadorPeixeAzul.models.Tanque;
+import br.com.peixeazul.gerenciadorPeixeAzul.models.Venda;
+import br.com.peixeazul.gerenciadorPeixeAzul.repositories.TanqueRepository;
 import br.com.peixeazul.gerenciadorPeixeAzul.repositories.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,32 +12,24 @@ import java.util.Optional;
 
 @Service
 public class VendaService {
-    private final VendaRepository vendaRepository;
 
     @Autowired
-    public VendaService(VendaRepository vendaRepository) {
-        this.vendaRepository = vendaRepository;
+    private VendaRepository vendaRepository;
+
+    public List<Venda> listarTodos(){
+        return vendaRepository.findAll();
     }
 
-    public Optional<List<Venda>> listarPorTanque(Integer tanqueId) {
-        return Optional.of(vendaRepository.findByTanqueId(tanqueId));
-    }
-
-    public Optional<List<Venda>> listarTodas(){
-        return Optional.of(vendaRepository.findAll());
-    }
-
-    public Optional<Venda> buscarPorId(Integer id){
+    public Optional<Venda> buscarPorId(Integer id) {
         return vendaRepository.findById(id);
     }
 
-    public Venda registrarVenda(Venda venda) {
+    public Venda salvar(Venda venda) {
         return vendaRepository.save(venda);
     }
 
-    public void excluirVenda (Integer id){
+    public void deletar(Integer id) {
         vendaRepository.deleteById(id);
     }
-
 }
 

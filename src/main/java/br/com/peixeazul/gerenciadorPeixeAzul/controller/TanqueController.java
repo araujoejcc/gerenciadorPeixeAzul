@@ -1,41 +1,44 @@
-package br.com.peixeazul.gerenciadorPeixeAzul.controller;
+package br.com.peixeazul.gerenciadorPeixeAzul.controllers;
 
-import br.com.peixeazul.gerenciadorPeixeAzul.entities.Tanque;
+import br.com.peixeazul.gerenciadorPeixeAzul.models.Tanque;
 import br.com.peixeazul.gerenciadorPeixeAzul.services.TanqueService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/tanques")
+@RequestMapping("/tanques")
 public class TanqueController {
 
-    private final TanqueService tanqueService;
-
     @Autowired
-    public TanqueController(TanqueService tanqueService) {
-        this.tanqueService = tanqueService;
-    }
+    private TanqueService tanqueService;
 
     @GetMapping
-    public Optional<List<Tanque>> listarTodos() {
-        return tanqueService.listarTanques();
+    public ResponseEntity<List<Tanque>> getAllTanques() {
+        return ResponseEntity.ok(tanqueService.getAllTanques());
     }
 
     @GetMapping("/{id}")
-    public Optional<Tanque> listarPorId(@PathVariable Integer id) {
-        return tanqueService.buscarPorId(id);
+    public Tanque getTanqueById(@PathVariable Integer id) {
+
+        return tanqueService.getTanqueById(id);
     }
 
     @PostMapping
-    public Tanque criar(@RequestBody Tanque tanque) {
-        return tanqueService.salvarTanque(tanque);
+    public ResponseEntity<TanqueService> createTanque(@Valid @RequestBody Tanque tanque) {
+        return ResponseEntity.ok(tanqueService);
+    }
+
+    @PutMapping("/{id}")
+    public Tanque updateTanque(@PathVariable Integer id, @RequestBody Tanque tanque) {
+        return tanqueService.updateTanque(id, tanque);
     }
 
     @DeleteMapping("/{id}")
-    public void excluir(@PathVariable Integer id) {
-        tanqueService.excluirTanque(id);
+    public void deleteTanque(@PathVariable Integer id) {
+        tanqueService.deleteTanque(id);
     }
 }
