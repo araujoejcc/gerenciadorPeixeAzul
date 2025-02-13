@@ -12,31 +12,4 @@ import java.util.Optional;
 @RequestMapping("/api/cicloProducao")
 public class CicloProducaoController {
 
-    private final CicloProducaoService cicloProducaoService;
-
-    @Autowired
-    public CicloProducaoController(CicloProducaoService cicloProducaoService) {
-        this.cicloProducaoService = cicloProducaoService;
-    }
-
-    @GetMapping
-    public Optional<List<CicloProducao>> listarTodos() {
-        return cicloProducaoService.listarTodos();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<CicloProducao> listarPorId(@PathVariable Integer id) {
-        return cicloProducaoService.listarPorId(id);
-    }
-
-    @PostMapping
-    public CicloProducao criar(@RequestBody CicloProducao cicloProducao) {
-        return cicloProducaoService.registrarCiclo(cicloProducao);
-    }
-
-    @DeleteMapping("/{id}")
-    public void excluir(@PathVariable Integer id) {
-        cicloProducaoService.excluirCiclo(id);
-    }
-
 }

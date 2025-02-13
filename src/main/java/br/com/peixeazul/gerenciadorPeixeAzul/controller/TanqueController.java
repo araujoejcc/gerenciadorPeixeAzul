@@ -13,32 +13,5 @@ import java.util.List;
 @RequestMapping("/tanques")
 public class TanqueController {
 
-    @Autowired
-    private TanqueService tanqueService;
 
-    @GetMapping
-    public ResponseEntity<List<Tanque>> getAllTanques() {
-        return ResponseEntity.ok(tanqueService.getAllTanques());
-    }
-
-    @GetMapping("/{id}")
-    public Tanque getTanqueById(@PathVariable Integer id) {
-
-        return tanqueService.getTanqueById(id);
-    }
-
-    @PostMapping
-    public ResponseEntity<TanqueService> createTanque(@Valid @RequestBody Tanque tanque) {
-        return ResponseEntity.ok(tanqueService);
-    }
-
-    @PutMapping("/{id}")
-    public Tanque updateTanque(@PathVariable Integer id, @RequestBody Tanque tanque) {
-        return tanqueService.updateTanque(id, tanque);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteTanque(@PathVariable Integer id) {
-        tanqueService.deleteTanque(id);
-    }
 }
