@@ -29,5 +29,6 @@ public class VendaService {
     public void deletar(Integer id) {
         vendaRepository.deleteById(id);
     }
+
 }
 

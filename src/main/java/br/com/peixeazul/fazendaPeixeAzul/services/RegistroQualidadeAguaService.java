@@ -28,4 +28,5 @@ public class RegistroQualidadeAguaService {
     public void deletar(Integer id) {
         registroQualidadeAguaRepository.deleteById(id);
     }
+
 }

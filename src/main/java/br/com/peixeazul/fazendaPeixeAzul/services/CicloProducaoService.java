@@ -1,11 +1,13 @@
 package br.com.peixeazul.fazendaPeixeAzul.services;
 
 import br.com.peixeazul.fazendaPeixeAzul.models.CicloProducao;
+import br.com.peixeazul.fazendaPeixeAzul.models.Tanque;
 import br.com.peixeazul.fazendaPeixeAzul.repositories.CicloProducaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +33,6 @@ public class CicloProducaoService {
     public void deletar(Integer id) {
         cicloProducaoRepository.deleteById(id);
     }
+
 
 }
