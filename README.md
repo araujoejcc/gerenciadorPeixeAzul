@@ -4,35 +4,54 @@
 
 ### 1.1 Visão Geral
 
-O sistema será estruturado de forma modular, com interfaces intuitivas e banco de dados relacional para armazenamento das informações. A arquitetura será composta por módulos interconectados que compartilham informações entre si.
+O sistema é estruturado de forma modular, com interfaces intuitivas e banco de dados relacional para armazenamento das informações. A arquitetura é composta por módulos interconectados que compartilham informações entre si.
 
-```
-┌───────────────────────────────────────────────────────────────┐
-│                   SISTEMA DE GESTÃO CARINICULTURA             │
-├───────────┬───────────┬───────────┬───────────┬───────────────┤
-│  Módulo   │  Módulo   │  Módulo   │  Módulo   │    Módulo     │
-│ Produção  │  Estoque  │ Financeiro│ Comercial │   Relatórios  │
-└─────┬─────┴─────┬─────┴─────┬─────┴─────┬─────┴───────┬───────┘
-      │           │           │           │             │
-┌─────▼─────┬─────▼─────┬─────▼─────┬─────▼─────┬───────▼───────┐
-│ Cadastros │ Controles │  Vendas   │   RH      │  Regulatório  │
-└───────────┴───────────┴───────────┴───────────┴───────────────┘
+```mermaid
+flowchart TD
+    A[Sistema de Gestão Carinicultura] --> B[Módulo Produção]
+    A --> C[Módulo Estoque]
+    A --> D[Módulo Financeiro]
+    A --> E[Módulo Comercial]
+    A --> F[Módulo Relatórios]
+    
+    B --> G[Cadastros]
+    C --> G
+    D --> G
+    E --> G
+    F --> G
+    
+    B --> H[Controles]
+    C --> H
+    D --> H
+    E --> H
+    F --> H
+    
+    D --> I[Vendas]
+    E --> I
+    F --> I
+    
+    B --> J[RH]
+    D --> J
+    F --> J
+    
+    B --> K[Regulatório]
+    F --> K
 ```
 
 ### 1.2 Banco de Dados
 
 Estrutura relacional com as seguintes entidades principais:
 
-- Tanques
-- Ciclos de Produção
-- Insumos
-- Monitoramentos
-- Clientes
-- Vendas
-- Despesas
-- Receitas
-- Funcionários
-- Documentos Regulatórios
+```mermaid
+erDiagram
+    TANQUES ||--o{ CICLOS_PRODUCAO : possui
+    CICLOS_PRODUCAO ||--o{ MONITORAMENTO : contem
+    CICLOS_PRODUCAO ||--o{ ALIMENTACAO : registra
+    TANQUES ||--o{ VENDAS : gera
+    VENDAS }|--|| CLIENTES : atende
+    ALIMENTACAO }o--|| INSUMOS : utiliza
+    ALIMENTACAO }|--|| DESPESAS : gera
+```
 
 ## 2. Módulos do Sistema
 
@@ -61,6 +80,16 @@ Estrutura relacional com as seguintes entidades principais:
   - Nitrito
 - Alertas para parâmetros fora do ideal
 - Visualização gráfica de tendências
+
+```mermaid
+graph LR
+    A[Tanque] --> B[Ciclo de Produção]
+    B --> C[Monitoramento]
+    C -->|Alerta| D[Parâmetros Críticos]
+    C -->|Histórico| E[Gráficos e Tendências]
+    B --> F[Alimentação]
+    F --> G[Conversão Alimentar]
+```
 
 #### 2.1.4 Manejo Alimentar
 - Planejamento de arraçoamento
@@ -95,6 +124,24 @@ Estrutura relacional com as seguintes entidades principais:
 - Histórico de processamento
 
 ### 2.3 Módulo Financeiro
+
+```mermaid
+flowchart TD
+    A[Módulo Financeiro] --> B[Despesas]
+    A --> C[Receitas]
+    A --> D[Fluxo de Caixa]
+    A --> E[Custo de Produção]
+    
+    B --> F[Fornecedores]
+    B --> G[Categorias de Despesas]
+    C --> H[Vendas]
+    C --> I[Previsão de Receitas]
+    D --> J[Conciliação]
+    D --> K[Projeções]
+    E --> L[Cálculo por kg]
+    E --> M[Margem de Contribuição]
+    E --> N[Ponto de Equilíbrio]
+```
 
 #### 2.3.1 Despesas
 - Cadastro de fornecedores
@@ -164,6 +211,22 @@ Estrutura relacional com as seguintes entidades principais:
 
 ### 2.7 Módulo de Relatórios e Indicadores
 
+```mermaid
+flowchart LR
+    A[Dashboard Gerencial] --> B[Indicadores-Chave]
+    A --> C[Status Atual]
+    A --> D[Alertas]
+    
+    E[Relatórios Operacionais] --> F[Produtividade]
+    E --> G[Taxa Conversão]
+    E --> H[Taxa Sobrevivência]
+    E --> I[Crescimento Semanal]
+    
+    J[Relatórios Financeiros] --> K[Rentabilidade]
+    J --> L[Comparativos]
+    J --> M[Projeções]
+```
+
 #### 2.7.1 Dashboard Gerencial
 - Visão consolidada de indicadores-chave
 - Status atual da produção
@@ -199,6 +262,23 @@ Estrutura relacional com as seguintes entidades principais:
 
 ## 4. Implementação e Requisitos Técnicos
 
+```mermaid
+graph TD
+    A[Sistema] --> B[Backend: Java/Spring Boot]
+    A --> C[Frontend: Angular]
+    A --> D[Banco de Dados: PostgreSQL]
+    
+    B --> E[API RESTful]
+    C --> E
+    E --> D
+    
+    B --> F[Autenticação JWT]
+    B --> G[Validação de Dados]
+    
+    C --> H[Componentes Reutilizáveis]
+    C --> I[Gráficos e Visualizações]
+```
+
 ### 4.1 Requisitos de Hardware
 - Servidor local ou solução em nuvem
 - Dispositivos móveis para coleta de dados em campo
@@ -206,8 +286,9 @@ Estrutura relacional com as seguintes entidades principais:
 
 ### 4.2 Requisitos de Software
 - Sistema operacional: Windows ou Linux
-- Banco de dados: MySQL ou PostgreSQL
-- Interface web responsiva
+- Banco de dados: PostgreSQL
+- Backend: Java com Spring Boot
+- Frontend: Angular
 
 ### 4.3 Segurança
 - Controle de acesso por usuário
@@ -217,32 +298,94 @@ Estrutura relacional com as seguintes entidades principais:
 ## 5. Plano de Implementação
 
 ### 5.1 Fases de Implementação
-1. **Fase 1:** Módulos de Produção e Estoque
-2. **Fase 2:** Módulos Financeiro e Comercial
-3. **Fase 3:** Módulos de RH e Regulatório
-4. **Fase 4:** Relatórios e Integrações
+```mermaid
+gantt
+    title Fases de Implementação
+    dateFormat YYYY-MM-DD
+    
+    section Fase 1
+    Módulos de Produção e Estoque    :2023-01-01, 3M
+    
+    section Fase 2
+    Módulos Financeiro e Comercial   :after Fase 1, 3M
+    
+    section Fase 3
+    Módulos de RH e Regulatório      :after Fase 2, 2M
+    
+    section Fase 4
+    Relatórios e Integrações         :after Fase 3, 2M
+```
 
 ### 5.2 Treinamento
 - Capacitação inicial da equipe
 - Materiais de referência (manuais)
 - Suporte contínuo
 
-## 6. Modelo de Dados Simplificado
+## 6. Classe de Domínio
 
-```
-┌───────────────┐       ┌───────────────┐       ┌───────────────┐
-│    TANQUES    │◄──────┤    CICLOS     │──────►│ MONITORAMENTO │
-└───────┬───────┘       └───────┬───────┘       └───────────────┘
-        │                       │
-        │                       │
-┌───────▼───────┐       ┌───────▼───────┐       ┌───────────────┐
-│   INSUMOS     │◄──────┤  ALIMENTAÇÃO  │──────►│    VENDAS     │
-└───────────────┘       └───────┬───────┘       └───────┬───────┘
-                                │                       │
-                                │                       │
-                        ┌───────▼───────┐       ┌───────▼───────┐
-                        │   DESPESAS    │       │   CLIENTES    │
-                        └───────────────┘       └───────────────┘
+```mermaid
+classDiagram
+    class Tanque {
+        +Integer id
+        +String nome
+        +double capacidade
+        +String localizacao
+        +String especieCultura
+    }
+    
+    class CicloProducao {
+        +Integer id
+        +Tanque tanque
+        +LocalDate dataInicio
+        +LocalDate dataFim
+        +double quantidadePescado
+        +double racaoGasta
+        +double calcularFCA()
+    }
+    
+    class RegistroQualidadeAgua {
+        +Integer id
+        +Tanque tanque
+        +double amonia
+        +double nitrito
+        +double salinidade
+        +double turbidez
+        +double temperatura
+        +double ph
+        +double oxigenacao
+        +LocalDate data
+    }
+    
+    class Alimentacao {
+        +Integer id
+        +CicloProducao cicloProducao
+        +LocalDate data
+        +LocalTime horario
+        +String tipoRacao
+        +double quantidade
+        +String observacao
+    }
+    
+    class Venda {
+        +Integer id
+        +Tanque tanque
+        +double quantidadePescado
+        +double valorTotal
+        +LocalDate data
+    }
+    
+    class Compra {
+        +Integer id
+        +String descricao
+        +double valor
+        +LocalDate data
+        +TipoCompra tipo
+    }
+    
+    Tanque "1" -- "many" CicloProducao : possui
+    Tanque "1" -- "many" RegistroQualidadeAgua : monitora
+    CicloProducao "1" -- "many" Alimentacao : registra
+    Tanque "1" -- "many" Venda : produz
 ```
 
 ## 7. Evolução Futura do Sistema
@@ -258,3 +401,51 @@ Estrutura relacional com as seguintes entidades principais:
 - Otimização de arraçoamento baseada em IA
 - Previsão de demanda
 - Rastreabilidade completa para o consumidor final
+
+```mermaid
+graph LR
+    A[Sistema Atual] --> B[Automação]
+    A --> C[E-commerce]
+    A --> D[Sistemas Contábeis]
+    A --> E[Previsão Climática]
+    
+    A --> F[IA para Crescimento]
+    A --> G[IA para Arraçoamento]
+    A --> H[Previsão de Demanda]
+    A --> I[Rastreabilidade]
+```
+
+## 8. Arquitetura de Software
+
+```mermaid
+flowchart TD
+    subgraph "Camada de Apresentação"
+        A[Angular Web App]
+        B[Mobile App]
+    end
+    
+    subgraph "Camada de Aplicação"
+        C[Controllers]
+        D[Services]
+        E[DTOs]
+    end
+    
+    subgraph "Camada de Domínio"
+        F[Models]
+        G[Business Logic]
+    end
+    
+    subgraph "Camada de Persistência"
+        H[Repositories]
+        I[Database]
+    end
+    
+    A --> C
+    B --> C
+    C --> D
+    D --> F
+    D --> G
+    F --> H
+    G --> H
+    H --> I
+```
